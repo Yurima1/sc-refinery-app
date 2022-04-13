@@ -1,4 +1,4 @@
-import { h, Component, Fragment } from "preact"
+import { Fragment } from "preact"
 import { useReducer, useEffect } from 'preact/hooks'
 import classnames from "classnames/dedupe"
 
@@ -22,10 +22,10 @@ const DropdownMenu = ({ options, show, dispatch }) => {
     ev.preventDefault()
     dispatch({ type: "menuItemClicked", value })
   }
-  return <ul class={classnames("dropdown-menu", {show: show})}
+  return <ul class={classnames("dropdown-menu", {show})}
       style="max-height:50vh;overflow-y:auto">
     {options.map(optValue => (
-      <li><a class="dropdown-item" href="#"
+      <li key={optValue}><a class="dropdown-item" href="#"
              onClick={(ev) => onClickDispatch(ev, optValue)}
       >{optValue}</a></li>
     ))}
@@ -53,7 +53,7 @@ const DropdownMenuWidget = ({ options, showMenu, dispatch }) => {
   </Fragment>
 }
 
-export default ({
+const AutoCompleteInput = ({
     id="ERROR-ID-MISSING",
     label="ERROR-LABEL-MISSING",
     placeholder="Type to search...",
@@ -94,8 +94,10 @@ export default ({
       </div>
       <datalist id={dataListId}>
         {options.map(optValue => (
-          <option value={optValue} />
+          <option key={optValue} value={optValue} />
         ))}
       </datalist>
     </div>)
 }
+
+export default AutoCompleteInput

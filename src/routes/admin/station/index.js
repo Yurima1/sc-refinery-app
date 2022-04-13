@@ -1,9 +1,10 @@
-import { debounceEffect } from "../../../components/util"
+import { debounceEffect } from "../../../util"
 import AdminDataTable from "../_table"
 import useQueryState from "../_query"
 import Breadcrumb from "../../../components/breadcrumb"
 import { useAppContext } from "../../../components/app"
 import { route } from "preact-router"
+import constants from "../../../constants"
 
 const columns = [
   {
@@ -49,7 +50,7 @@ const columns = [
   },
 ]
 
-export default (props) => {
+const AdminStationIndex = () => {
   const { apiConnector } = useAppContext()
   const [queryState, queryDispatch] = useQueryState()
 
@@ -72,19 +73,19 @@ export default (props) => {
     <div class="m-3 flex-grow-1">
       <Breadcrumb
         items={[
-          { label: "Admin", href: "/app/admin" },
-          { label: "Station", href: "/app/admin/station" },
+          { label: "Admin", href: constants.BASEURL + "/admin" },
+          { label: "Station", href: constants.BASEURL + "/admin/station" },
         ]}
       />
       <AdminDataTable
         columns={columns}
         queryState={queryState}
         queryDispatch={queryDispatch}
-        onRowClicked={(row) => route(`/app/admin/station/${row.id}`)}
+        onRowClicked={(row) => route(`${constants.BASEURL}/admin/station/${row.id}`)}
       />
       <div class="text-end">
         <a
-          href="/app/admin/station/create"
+          href={constants.BASEURL + "/admin/station/create"}
           type="button"
           class="btn btn-primary"
         >
@@ -94,3 +95,5 @@ export default (props) => {
     </div>
   )
 }
+
+export default AdminStationIndex

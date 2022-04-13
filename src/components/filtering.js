@@ -1,6 +1,6 @@
 import { useReducer, useState } from "preact/hooks"
 import { Icon } from "./icon"
-import { debounceEffect } from "./util"
+import { debounceEffect } from "../util"
 
 
 export const filterReducer = (state, action) => {
@@ -18,10 +18,10 @@ export const FilterInput = ({ onChange, value, debounce=200, id="UNINITIALIZED" 
   return <div class="input-group input-group-sm">
     <input id={id} type="text" value={_value} class="form-control"
       placeholder="type to filter..."
-      onInput={ev => setValue(ev.target.value) }/>
+      onInput={ev => setValue(ev.target.value) } />
     <button class="btn btn-secondary" type="button"
       onClick={ev => { ev.preventDefault(); ev.stopPropagation(); setValue("") }}>
-      <Icon cls="x-circle-fill"/>
+      <Icon cls="x-circle-fill" />
     </button>
   </div>
 }

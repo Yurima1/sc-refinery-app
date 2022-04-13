@@ -1,4 +1,4 @@
-import { stopEvent } from "../../../components/util"
+import { stopEvent } from "../../../util"
 import { useState, useEffect } from "preact/hooks"
 import Input from "../../../components/form/input"
 
@@ -24,7 +24,7 @@ const UserPermsForm = ({ scopes = [], onChange }) => {
     if (idx > -1) setState(state.filter((it) => it !== scope))
     else setState([...state, scope])
   }
-  useEffect(() => onChange(state), [state])
+  useEffect(() => onChange(state), [state, onChange])
 
   return (
     <div class="d-flex justify-content-between">
@@ -37,25 +37,25 @@ const UserPermsForm = ({ scopes = [], onChange }) => {
             value={state.indexOf("*") > -1}
             id={`user-scope-admin`}
             checked={state.indexOf("*") > -1}
-            onChange={stopEvent((_) => toggleScope("*"))}
+            onChange={stopEvent(() => toggleScope("*"))}
           />
           <label class="form-check-label" for={`user-scope-admin`}>
             Admin
           </label>
         </div>
       </div>
-      {resources.map((resource) => (
-        <div>
+      {resources.map((resource, resource_key) => (
+        <div key={`${resource}${resource_key}`}>
           <strong>{resource}</strong>
-          {actions.map((action) => (
-            <div class="form-check">
+          {actions.map((action, action_key) => (
+            <div class="form-check" key={`${action}${action_key}`}>
               <input
                 class="form-check-input"
                 type="checkbox"
                 value={state.indexOf(`${resource}.${action}`) > -1}
                 id={`user-scope-${resource}-${action}`}
                 checked={state.indexOf(`${resource}.${action}`) > -1}
-                onChange={stopEvent((_) =>
+                onChange={stopEvent(() =>
                   toggleScope(`${resource}.${action}`)
                 )}
                 disabled={hasStar}
@@ -74,7 +74,7 @@ const UserPermsForm = ({ scopes = [], onChange }) => {
   )
 }
 
-export default ({ model, onSave }) => {
+const UserForm = ({ model, onSave }) => {
   const [state, setState] = useState({
     model
   })
@@ -150,3 +150,5 @@ export default ({ model, onSave }) => {
     </form>
   )
 }
+
+export default UserForm

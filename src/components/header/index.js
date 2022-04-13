@@ -1,6 +1,5 @@
-import { h } from 'preact';
-import { Link } from 'preact-router/match';
-import style from './style.css';
+import { Link } from 'preact-router/match'
+import style from './style.css'
 
 const Header = () => (
 	<header class={style.header}>
@@ -13,4 +12,4 @@ const Header = () => (
 	</header>
 );
 
-export default Header;
+export default Header

@@ -1,6 +1,4 @@
 import { useReducer } from "preact/hooks"
-import { Icon } from "./icon"
-
 
 const paginatedReducer = (state, action) => {
   // state = { page: number, perPage: number }

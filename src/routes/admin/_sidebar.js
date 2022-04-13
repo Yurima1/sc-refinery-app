@@ -1,6 +1,7 @@
 import { Link } from "preact-router/match"
 import { Icon } from "../../components/icon"
 import { Sidebar } from "../../components/sidebar"
+import constants from "../../constants"
 
 const SidebarItem = ({ label, href, icon }) => (
   <li class="nav-item">
@@ -11,28 +12,38 @@ const SidebarItem = ({ label, href, icon }) => (
   </li>
 )
 
-export default (props) => {
+const AdminSidebar = () => {
   return (
     <Sidebar>
       <ul class="nav nav-pills flex-column scrollarea">
-        <SidebarItem label="User" href="/app/admin/user" icon="person-fill" />
-        <SidebarItem label="Ore" href="/app/admin/ore" icon="bucket-fill" />
+        <SidebarItem
+          label="User"
+          href={constants.BASEURL + "/admin/user"}
+          icon="person-fill"
+        />
+        <SidebarItem
+          label="Ore"
+          href={constants.BASEURL + "/admin/ore"}
+          icon="bucket-fill"
+        />
         <SidebarItem
           label="Station"
-          href="/app/admin/station"
+          href={constants.BASEURL + "/admin/station"}
           icon="geo-fill"
         />
         <SidebarItem
           label="Method"
-          href="/app/admin/method"
+          href={constants.BASEURL + "/admin/method"}
           icon="funnel-fill"
         />
         <SidebarItem
           label="MiningSession"
-          href="/app/admin/mining_session"
+          href={constants.BASEURL + "/admin/mining_session"}
           icon="people-fill"
         />
       </ul>
     </Sidebar>
   )
 }
+
+export default AdminSidebar

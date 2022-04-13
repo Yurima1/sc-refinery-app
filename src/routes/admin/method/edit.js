@@ -3,6 +3,8 @@ import Spinner from "../../../components/spinner"
 import { useEffect, useReducer } from "preact/hooks"
 import { useAppContext } from "../../../components/app"
 import MethodForm from "./_form"
+import constants from "constants"
+import { route } from "preact-router"
 
 const handleForm = (state, action) => {
   switch (action.type) {
@@ -24,7 +26,7 @@ const handleForm = (state, action) => {
   }
 }
 
-export default ({ modelId }) => {
+const AdminMethodEdit = ({ modelId }) => {
   const { apiConnector } = useAppContext()
   const [state, dispatch] = useReducer(handleForm, {
     modelId,
@@ -80,8 +82,8 @@ export default ({ modelId }) => {
     apiConnector
       .api("DELETE", `/method/${model.id}`)
       .fetch()
-      .then((context) => {
-        route("/app/admin/method/")
+      .then(() => {
+        route(constants.BASEURL + "/admin/method/")
       })
       .catch(() => {})
   }
@@ -90,8 +92,8 @@ export default ({ modelId }) => {
     <div class="m-3 flex-grow-1">
       <Breadcrumb
         items={[
-          { label: "Admin", href: "/app/admin" },
-          { label: "Method", href: "/app/admin/method" },
+          { label: "Admin", href: constants.BASEURL + "/admin" },
+          { label: "Method", href: constants.BASEURL + "/admin/method" },
           { label: state.model?.id },
         ]}
       />
@@ -106,3 +108,5 @@ export default ({ modelId }) => {
     </div>
   )
 }
+
+export default AdminMethodEdit

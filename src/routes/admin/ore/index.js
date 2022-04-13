@@ -1,4 +1,4 @@
-import { debounceEffect } from "../../../components/util"
+import { debounceEffect } from "../../../util"
 import AdminDataTable from "../_table"
 import useQueryState from "../_query"
 import Breadcrumb from "../../../components/breadcrumb"
@@ -49,7 +49,7 @@ const columns = [
   },
 ]
 
-export default (props) => {
+const AdminOreIndex = () => {
   const { apiConnector } = useAppContext()
   const [queryState, queryDispatch] = useQueryState()
 
@@ -91,3 +91,5 @@ export default (props) => {
     </div>
   )
 }
+
+export default AdminOreIndex

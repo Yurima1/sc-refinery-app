@@ -1,4 +1,5 @@
 import { Router } from 'preact-router'
+import constants from "../../constants"
 import Sidebar from "./_sidebar"
 import UserIndex from "./user/index"
 import UserEdit from "./user/edit"
@@ -12,38 +13,40 @@ import MethodCreate from "./method/create"
 import OreIndex from "./ore/index"
 import OreEdit from "./ore/edit"
 import OreCreate from "./ore/create"
-import Mining_session from './mining_session/index'
+import MiningSession from './mining_session/index'
 
 
-const Default = (props) => (
+const Default = () => (
   <div class="p-3">Default</div>
 )
 
-export default (props) => {
+const AdminIndex = () => {
   return (
     <div class="d-flex flex-grow-1">
       <Sidebar />
       <Router>
-        <Default path="/app/admin" />
+        <Default path={constants.BASEURL + "/admin"} />
 
-        <UserIndex path="/app/admin/user" />
-        <UserEdit path="/app/admin/user/:modelId" />
-        <UserCreate path="/app/admin/user/create" />
+        <UserIndex path={constants.BASEURL + "/admin/user"} />
+        <UserEdit path={constants.BASEURL + "/admin/user/:modelId"} />
+        <UserCreate path={constants.BASEURL + "/admin/user/create"} />
 
-        <StationIndex path="/app/admin/station" />
-        <StationEdit path="/app/admin/station/:modelId" />
-        <StationCreate path="/app/admin/station/create" />
+        <StationIndex path={constants.BASEURL + "/admin/station"} />
+        <StationEdit path={constants.BASEURL + "/admin/station/:modelId"} />
+        <StationCreate path={constants.BASEURL + "/admin/station/create"} />
 
-        <MethodIndex path="/app/admin/method" />
-        <MethodEdit path="/app/admin/method/:modelId" />
-        <MethodCreate path="/app/admin/method/create" />
+        <MethodIndex path={constants.BASEURL + "/admin/method"} />
+        <MethodEdit path={constants.BASEURL + "/admin/method/:modelId"} />
+        <MethodCreate path={constants.BASEURL + "/admin/method/create"} />
 
-        <OreIndex path="/app/admin/ore" />
-        <OreEdit path="/app/admin/ore/:modelId" />
-        <OreCreate path="/app/admin/ore/create" />
+        <OreIndex path={constants.BASEURL + "/admin/ore"} />
+        <OreEdit path={constants.BASEURL + "/admin/ore/:modelId"} />
+        <OreCreate path={constants.BASEURL + "/admin/ore/create"} />
 
-        <Mining_session path="/app/admin/mining_session" />
+        <MiningSession path={constants.BASEURL + "/admin/mining_session"} />
       </Router>
     </div>
   )
 }
+
+export default AdminIndex

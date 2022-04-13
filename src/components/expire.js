@@ -2,7 +2,7 @@ import { Fragment } from 'preact'
 import { useEffect, useState } from 'preact/hooks'
 
 
-export default ({ duration, children }) => {
+const Expire = ({ duration, children }) => {
   const [visible, setVisible] = useState(true);
 
   useEffect(() => {
@@ -14,3 +14,5 @@ export default ({ duration, children }) => {
   if (visible)
     return <Fragment>{children}</Fragment>
 }
+
+export default Expire

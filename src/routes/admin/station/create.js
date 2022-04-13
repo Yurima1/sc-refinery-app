@@ -3,6 +3,8 @@ import Spinner from "../../../components/spinner"
 import { useEffect, useReducer } from "preact/hooks"
 import { useAppContext } from "../../../components/app"
 import StationForm from "./_form"
+import constants from "../../../constants"
+import { route } from "preact-router"
 
 const handleForm = (state, action) => {
   switch (action.type) {
@@ -27,7 +29,7 @@ const handleForm = (state, action) => {
   }
 }
 
-export default (props) => {
+const AdminStationCreate = () => {
   const { apiConnector } = useAppContext()
   const [state, dispatch] = useReducer(handleForm, {
     model: {
@@ -61,7 +63,7 @@ export default (props) => {
       .then((result) => result.json())
       .then((context) => {
         console.log("station save model", context.json)
-        route(`/app/admin/station/${context.json.id}`)
+        route(`${constants.BASEURL}/admin/station/${context.json.id}`)
       })
       .catch((context) => {
         dispatch({type: "loadFailed", response: context.json})
@@ -72,17 +74,16 @@ export default (props) => {
     <div class="m-3 flex-grow-1">
       <Breadcrumb
         items={[
-          { label: "Admin", href: "/app/admin" },
-          { label: "Station", href: "/app/admin/station" },
+          { label: "Admin", href: constants.BASEURL + "/admin" },
+          { label: "Station", href: constants.BASEURL + "/admin/station" },
           { label: "Create" },
         ]}
       />
       <Spinner isReady={state.isReady}>
-        <StationForm
-          ores={state.ores}
-          model={state.model}
-          onSave={saveModel}/>
+        <StationForm ores={state.ores} model={state.model} onSave={saveModel} />
       </Spinner>
     </div>
   )
 }
+
+export default AdminStationCreate

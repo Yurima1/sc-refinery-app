@@ -3,6 +3,9 @@ import Spinner from "../../../components/spinner"
 import { useEffect, useReducer } from "preact/hooks"
 import { useAppContext } from "../../../components/app"
 import MethodForm from "./_form"
+import constants from "constants"
+import { route } from "preact-router"
+
 
 const handleForm = (state, action) => {
   switch (action.type) {
@@ -22,7 +25,7 @@ const handleForm = (state, action) => {
   }
 }
 
-export default (props) => {
+const AdminMethodCreate = () => {
   const { apiConnector } = useAppContext()
   const [state, dispatch] = useReducer(handleForm, {
     model: {
@@ -56,7 +59,7 @@ export default (props) => {
       .then((result) => result.json())
       .then((context) => {
         console.log("method save model", context.json)
-        route(`/app/admin/method/${context.json.id}`)
+        route(`${constants.BASEURL}/admin/method/${context.json.id}`)
       })
       .catch((context) => {
         dispatch({ type: "loadFailed", response: context.json })
@@ -67,8 +70,8 @@ export default (props) => {
     <div class="m-3 flex-grow-1">
       <Breadcrumb
         items={[
-          { label: "Admin", href: "/app/admin" },
-          { label: "Method", href: "/app/admin/method" },
+          { label: "Admin", href: constants.BASEURL + "/app/admin" },
+          { label: "Method", href: constants.BASEURL + "/admin/method" },
           { label: "Create" },
         ]}
       />
@@ -78,3 +81,5 @@ export default (props) => {
     </div>
   )
 }
+
+export default AdminMethodCreate

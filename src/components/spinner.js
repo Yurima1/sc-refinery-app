@@ -1,4 +1,4 @@
-export default ({ fullHeight=false, isReady, children }) => (
+const Spinner = ({ fullHeight=false, isReady, children }) => (
   (isReady)
   ? children
   : (
@@ -11,7 +11,7 @@ export default ({ fullHeight=false, isReady, children }) => (
   )
 )
 
-export const SpinnerOverlay = ({ isReady, children }) =>
+const SpinnerOverlay = ({ isReady, children }) =>
   isReady ? (
     children
   ) : (
@@ -23,3 +23,6 @@ export const SpinnerOverlay = ({ isReady, children }) =>
       </div>
     </div>
   )
+
+export default Spinner
+export { SpinnerOverlay }

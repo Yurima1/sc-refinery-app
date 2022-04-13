@@ -2,7 +2,7 @@ import classnames from "classnames/dedupe"
 
 const _defaultRowClicked = () => { }
 
-export default ({
+const DataTable = ({
   columns,
   items,
   view = defaultTableView(),
@@ -23,6 +23,8 @@ export default ({
     {children}
   </div>
 )
+
+export default DataTable
 
 const viewHeaderColumn = (column) => {
   const { header } = column
@@ -73,7 +75,7 @@ const ColGroup = ({ columns }) => {
   return (
     <colgroup>
       {fractions.map(
-        fract => <col style={{ width: `${fract}%` }} />
+        (fract, index) => <col key={index} style={{ width: `${fract}%` }} />
       )}
     </colgroup>
   )
@@ -89,8 +91,8 @@ const TableHeader = ({ columns, view }) => (
 
 const TableBody = ({ columns, items, view, onRowClicked }) => (
   <tbody>
-    {items.map(item =>
-      <tr onDblClick={ev => onRowClicked(item)}>{
+    {items.map((item, index) =>
+      <tr key={index} onDblClick={() => onRowClicked(item)}>{
         columns.map(col => view.bodyColumn(col, item))
       }</tr>
     )}

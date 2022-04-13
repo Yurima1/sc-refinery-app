@@ -2,7 +2,7 @@ import {
   filterableToQuery,
   sortableToQuery,
   usvEncode,
-} from "../../components/util"
+} from "../../util"
 import { sortableReducer } from "../../components/sorting"
 import { filterReducer } from "../../components/filtering"
 import { useReducer } from "preact/hooks"

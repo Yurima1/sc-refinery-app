@@ -13,6 +13,7 @@ export default class OreForm extends Component {
     this.initialState = { ...props.model }
     this.state = { ...this.initialState }
   }
+
   render({ onSave, onDelete }, state) {
     return (
       <form action="javascript:void(0)">
@@ -32,7 +33,7 @@ export default class OreForm extends Component {
             <button
               type="submit"
               class="btn btn-danger"
-              onClick={(ev) => onDelete(state.id)}
+              onClick={() => onDelete(state.id)}
             >
               {translate("Delete"]}
             </button>
@@ -41,7 +42,7 @@ export default class OreForm extends Component {
             <button
               type="submit"
               class="btn btn-primary"
-              onClick={(ev) => onSave(state)}
+              onClick={() => onSave(state)}
             >
               {translate("Save")}
             </button>

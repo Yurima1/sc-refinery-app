@@ -4,6 +4,7 @@ import { useEffect, useReducer } from "preact/hooks"
 import { useAppContext } from "../../../components/app"
 import StationForm from "./_form"
 import { route } from "preact-router"
+import constants from "../../../constants"
 
 const handleForm = (state, action) => {
   switch (action.type) {
@@ -25,7 +26,7 @@ const handleForm = (state, action) => {
   }
 }
 
-export default ({ modelId }) => {
+const AdminStationEdit = ({ modelId }) => {
   const { apiConnector } = useAppContext()
   const [state, dispatch] = useReducer(handleForm, {
     modelId,
@@ -81,8 +82,8 @@ export default ({ modelId }) => {
     apiConnector
       .api("DELETE", `/station/${modelId}`)
       .fetch()
-      .then((context) => {
-        route("/app/admin/station/")
+      .then(() => {
+        route(constants.BASEURL + "/admin/station/")
       })
       .catch(() => {})
   }
@@ -91,8 +92,8 @@ export default ({ modelId }) => {
     <div class="m-3 flex-grow-1">
       <Breadcrumb
         items={[
-          { label: "Admin", href: "/app/admin" },
-          { label: "Station", href: "/app/admin/station" },
+          { label: "Admin", href: constants.BASEURL + "/admin" },
+          { label: "Station", href: constants.BASEURL + "/admin/station" },
           { label: state.model?.id },
         ]}
       />
@@ -101,8 +102,11 @@ export default ({ modelId }) => {
           ores={state.ores}
           model={state.model}
           onSave={saveModel}
-          onDelete={deleteModel} />
+          onDelete={deleteModel}
+        />
       </Spinner>
     </div>
   )
 }
+
+export default AdminStationEdit

@@ -1,6 +1,7 @@
 import { Link } from "preact-router/match"
-import { stopEvent } from "./util"
+import { stopEvent } from "../util"
 import { useAppContext } from "./app"
+import constants from "../constants"
 
 const NavLink = (props) => (
   <li class="nav-item">
@@ -10,7 +11,7 @@ const NavLink = (props) => (
   </li>
 )
 
-export default (props) => {
+const Navbar = () => {
   const { login, dispatch } = useAppContext()
   return (
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
@@ -23,9 +24,9 @@ export default (props) => {
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
           <ul class="navbar-nav flex-grow-1">
-            <NavLink href="/">Home</NavLink>
+            <NavLink href={constants.BASEURL + "/"}>Home</NavLink>
             {login.user?.scopes?.indexOf("*") > -1 && (
-              <NavLink href="/app/admin">Admin</NavLink>
+              <NavLink href={constants.BASEURL + "/admin"}>Admin</NavLink>
             )}
           </ul>
           <ul class="navbar-nav">
@@ -61,3 +62,5 @@ export default (props) => {
     </nav>
   )
 }
+
+export default Navbar

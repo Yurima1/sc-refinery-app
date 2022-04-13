@@ -1,4 +1,4 @@
-import { h, Component, Fragment } from "preact"
+import { Fragment } from "preact"
 import { useAppContext } from "./app"
 import Expire from "./expire"
 import Offcanvas from "./offcanvas"
@@ -21,7 +21,7 @@ const NotificationToast = ({ status, statusText, created, body }) => (
         class="btn-close"
         data-bs-dismiss="toast"
         aria-label="Close"
-      ></button>
+      />
     </div>
     <div class="toast-body">
       <pre>{body}</pre>
@@ -50,13 +50,13 @@ export const Notifications = ({ items = [], showAll = false }) => {
         position="end"
         show={showAll}
       >
-        {items.map((it) => (
-          <NotificationCard {...it} />
+        {items.map((it, index) => (
+          <NotificationCard key={index} {...it} />
         ))}
       </Offcanvas>
       <div class="toast-container position-absolute bottom-0 end-0 p-3">
-        {items.map((it) => (
-          <Expire duration={10}>
+        {items.map((it, index) => (
+          <Expire key={index} duration={10}>
             <NotificationToast {...it} />
           </Expire>
         ))}

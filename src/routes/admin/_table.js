@@ -64,7 +64,7 @@ const columnViewSelect = (columns, queryState, queryDispatch) =>
     bodyViewSelect(headerViewSelect({ ...column }, queryState, queryDispatch))
   )
 
-export default ({ columns, queryState, queryDispatch, onRowClicked }) => (
+const AdminTable = ({ columns, queryState, queryDispatch, onRowClicked }) => (
   <Fragment>
     <DataTable
       columns={columnViewSelect(columns, queryState, queryDispatch)}
@@ -80,3 +80,5 @@ export default ({ columns, queryState, queryDispatch, onRowClicked }) => (
     />
   </Fragment>
 )
+
+export default AdminTable

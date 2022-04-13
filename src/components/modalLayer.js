@@ -1,4 +1,4 @@
-import { h, Component, Fragment } from "preact"
+import { Fragment } from "preact"
 import classnames from "classnames/dedupe"
 import { LoginForm } from "./loginForm"
 
@@ -47,7 +47,7 @@ export const ModalLayer = ({ show, dispatch, ...props }) => (
   <Fragment>
     <div
       class={classnames("modal-backdrop", "fade", { show: Boolean(show)})}
-      style={{ display: Boolean(show) ? "block" : "none" }} />
+      style={{ display: show ? "block" : "none" }} />
     {show === "login" &&
       <LoginFormModal {...props} dispatch={dispatch} />
     }

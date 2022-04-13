@@ -1,8 +1,10 @@
+import { route } from "preact-router"
 import Breadcrumb from "../../../components/breadcrumb"
 import { useAppContext } from "../../../components/app"
 import UserForm from "./_form"
+import constants from "../../../constants"
 
-export default (props) => {
+const AdminUserCreate = () => {
   const { apiConnector } = useAppContext()
   const model = {
     id: "",
@@ -20,7 +22,7 @@ export default (props) => {
       .fetch()
       .then((result) => result.json())
       .then((context) => {
-        route(`/app/admin/user/${context.json.id}`)
+        route(`${constants.BASEURL}/admin/user/${context.json.id}`)
       })
       .catch(() => {})
   }
@@ -29,8 +31,8 @@ export default (props) => {
     <div class="m-3 flex-grow-1">
       <Breadcrumb
         items={[
-          { label: "Admin", href: "/app/admin" },
-          { label: "User", href: "/app/admin/user" },
+          { label: "Admin", href: constants.BASEURL + "/admin" },
+          { label: "User", href: constants.BASEURL + "/admin/user" },
           { label: "Create" },
         ]}
       />
@@ -38,3 +40,5 @@ export default (props) => {
     </div>
   )
 }
+
+export default AdminUserCreate

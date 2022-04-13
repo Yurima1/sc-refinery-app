@@ -3,6 +3,8 @@ import Spinner from "../../../components/spinner"
 import { useEffect, useReducer } from "preact/hooks"
 import { useAppContext } from "../../../components/app"
 import UserForm from "./_form"
+import constants from "../../../constants"
+
 
 const handleForm = (state, action) => {
   switch (action.type) {
@@ -17,7 +19,7 @@ const handleForm = (state, action) => {
   }
 }
 
-export default ({ modelId }) => {
+const AdminUserEdit = ({ modelId }) => {
   const { apiConnector } = useAppContext()
   const [state, dispatch] = useReducer(handleForm, {
     modelId,
@@ -54,8 +56,8 @@ export default ({ modelId }) => {
     <div class="m-3 flex-grow-1">
       <Breadcrumb
         items={[
-          { label: "Admin", href: "/app/admin" },
-          { label: "User", href: "/app/admin/user" },
+          { label: "Admin", href: constants.BASEURL + "/admin" },
+          { label: "User", href: constants.BASEURL + "/admin/user" },
           { label: state.model?.id },
         ]}
       />
@@ -65,3 +67,5 @@ export default ({ modelId }) => {
     </div>
   )
 }
+
+export default AdminUserEdit

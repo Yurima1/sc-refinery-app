@@ -1,4 +1,4 @@
-import { Component, Fragment } from "preact"
+import { Component } from "preact"
 import Input from "../../../components/form/input"
 import classnames from "classnames/dedupe"
 
@@ -38,6 +38,7 @@ class ValuesPerOre extends Component {
   render({ ores }, state) {
     return ores.map((ore, index) => (
       <div
+        key={ore.id}
         id={`method-ore-item-${ore.id}`}
         class={classnames("row border-top pt-2 pb-2", {
           "bg-light": index % 2 == 0,
@@ -69,7 +70,7 @@ class ValuesPerOre extends Component {
           onChange={(e) =>
             this.setValue({
               ore_id: ore.id,
-              cost: parseInt(e.target.value),
+              cost: parseInt(e.target.value, 10),
             })
           }
           css={{ main: { col: 1, "mb-3": 0 } }}
@@ -83,7 +84,7 @@ class ValuesPerOre extends Component {
           onChange={(e) =>
             this.setValue({
               ore_id: ore.id,
-              duration: parseInt(e.target.value),
+              duration: parseInt(e.target.value, 10),
             })
           }
           css={{ main: { col: 1, "mb-3": 0 } }}

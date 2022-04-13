@@ -1,4 +1,4 @@
-import { h, Component, Fragment, createContext } from 'preact'
+import { createContext } from 'preact'
 import { useContext, useEffect } from 'preact/hooks'
 import { Router } from 'preact-router'
 
@@ -8,11 +8,12 @@ dayjs.extend(relativeTime)
 import duration from "dayjs/plugin/duration"
 dayjs.extend(duration)
 
+import constants from "../constants"
 import { ModalLayer, handleModalActions } from "./modalLayer"
 import Navbar from "./navbar"
 import Admin from '../routes/admin';
-import ApiConnector from "./apiConnector"
-import { combineReducers, usvEncode, setCookie, getCookie, stopEvent } from "./util"
+import ApiConnector from "../apiConnector"
+import { combineReducers, setCookie, getCookie } from "../util"
 import { LoginForm } from "./loginForm"
 import { Notifications } from "./notifications"
 
@@ -48,9 +49,10 @@ const handleAppActions = (state, action) => {
     case "setCurrentScope":
       return { ...state, currentScope: action.scope }
 
-    case "notificationsToggle":
+    case "notificationsToggle": {
       const { notificationsShow } = state
-      return { ...state, notificationsShow: !notificationsShow}
+      return { ...state, notificationsShow: !notificationsShow }
+    }
 
     default: return state
   }
@@ -95,7 +97,7 @@ const checkTokenCookie = (apiConnector, stateUser, dispatch) => {
     .then(result => {
       dispatch({ type: "loginSuccess", user: result.json })
     })
-    .catch(result => {
+    .catch(() => {
       dispatch({ type: "loginFailed" })
     })
 }
@@ -122,23 +124,10 @@ const fetchLogin = (apiConnector, state, dispatch) =>
       })
   }, [ state.login.credentials ])
 
-
-const checkAppReadyState = (state, dispatch) =>
-  useEffect(() => {
-    const isReady = (
-      state.login.user !== null
-      && state.login.user !== undefined
-    )
-    dispatch({
-      type: "setIsReady",
-      isReady
-    })
-  }, [ state.login.token ])
-
 const AppContext = createContext({})
 export const useAppContext = () => useContext(AppContext)
 
-export default () => {
+const App = () => {
   const [ state, dispatch ] = combineReducers({
     app: [ handleAppActions, {
       isReady: false,
@@ -173,9 +162,9 @@ export default () => {
       <Navbar />
       {state.login.status === "success" ? (
         <Router>
-          <div path="/app">HOME</div>
+          <div path={`${constants.BASEURL}/`}>HOME</div>
           <Admin
-            path="/app/admin/:rest*"
+              path={`${constants.BASEURL}/admin/:rest*`}
           />
         </Router>
       ) : (
@@ -202,3 +191,5 @@ export default () => {
     </AppContext.Provider>
   )
 }
+
+export default App

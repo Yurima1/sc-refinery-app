@@ -19,10 +19,10 @@ const Col = ({ horizontal, children }) => (
     : children
 )
 
-export default ({ label, prefix, postfix, css, horizontal, ...props }) => {
+const Input = ({ label, prefix, postfix, css, horizontal, ...props }) => {
 
   return (
-    <div class={classnames({ "mb-3": !horizontal, "row": horizontal }, css?.main)}>
+    <div class={classnames({ "mb-3": !horizontal, row: horizontal }, css?.main)}>
       {label !== undefined && (
         <label for={props.id} class={classnames("form-label", {"col-form-label": horizontal}, css?.label)}>
           {label}
@@ -30,9 +30,11 @@ export default ({ label, prefix, postfix, css, horizontal, ...props }) => {
       )}
       <Col horizontal={horizontal}>
         <InputGroup prefix={prefix} postfix={postfix}>
-          <input class={classnames("form-control", css?.input)} {...props}/>
+          <input class={classnames("form-control", css?.input)} {...props} />
         </InputGroup>
       </Col>
     </div>
   )
 }
+
+export default Input

@@ -1,4 +1,4 @@
-import { h, Component, Fragment } from "preact"
+import { Fragment } from "preact"
 import { useState } from "preact/hooks"
 import classnames from "classnames/dedupe"
 import { FilterInput } from './filtering'
@@ -14,9 +14,7 @@ const itemFilter = (filterValue) => {
   if (filterValue && filterValue.length > 0) {
     return it => it.label.toLowerCase().includes(filterValue.toLowerCase())
   }
-  else {
-    return () => true
-  }
+  return () => true
 }
 
 export const SidebarItem = ({ label, active, href, icon }) => {
@@ -30,15 +28,15 @@ export const SidebarItem = ({ label, active, href, icon }) => {
   )
 }
 
-export const SidebarList = ({ filterInputId, filterInputValue="", items, itemActiveIndex, children }) => {
+export const SidebarList = ({ filterInputId, filterInputValue="", items, children }) => {
   const [ filterValue, setFilterValue ] = useState(filterInputValue)
 
   return <Fragment>
     <FilterInput id={filterInputId} value={filterValue}
                  onChange={setFilterValue} debounce={0} />
     <ul class="nav nav-pills flex-column scrollarea">
-      {items.filter(itemFilter(filterValue)).map(it =>
-        <li class="nav-item">
+      {items.filter(itemFilter(filterValue)).map((it, index) =>
+        <li key={index} class="nav-item">
           <a class={classnames("nav-link", { active: it.active })} href={it.href}>
             {it.icon && <Icon cls={it.icon} />}{it.label}
           </a>
