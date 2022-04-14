@@ -35,7 +35,7 @@ export default class OreForm extends Component {
               class="btn btn-danger"
               onClick={() => onDelete(state.id)}
             >
-              {translate("Delete"]}
+              {translate("Delete")}
             </button>
           )}
           {onSave !== undefined && (
