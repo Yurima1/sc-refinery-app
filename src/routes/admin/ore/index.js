@@ -4,6 +4,7 @@ import useQueryState from "../_query"
 import Breadcrumb from "../../../components/breadcrumb"
 import { useAppContext } from "../../../components/app"
 import { route } from "preact-router"
+import constants from "../../../constants"
 
 const columns = [
   {
@@ -73,18 +74,24 @@ const AdminOreIndex = () => {
     <div class="m-3 flex-grow-1">
       <Breadcrumb
         items={[
-          { label: "Admin", href: "/app/admin" },
-          { label: "Ore", href: "/app/admin/ore" },
+          { label: "Admin", href: constants.BASEURL + "/admin" },
+          { label: "Ore", href: constants.BASEURL + "/admin/ore" },
         ]}
       />
       <AdminDataTable
         columns={columns}
         queryState={queryState}
         queryDispatch={queryDispatch}
-        onRowClicked={(row) => route(`/app/admin/ore/${row.id}`)}
+        onRowClicked={(row) =>
+          route(`${constants.BASEURL}/admin/ore/${row.id}`)
+        }
       />
       <div class="text-end">
-        <a href="/app/admin/ore/create" type="button" class="btn btn-primary">
+        <a
+          href={constants.BASEURL + "/admin/ore/create"}
+          type="button"
+          class="btn btn-primary"
+        >
           Create
         </a>
       </div>
