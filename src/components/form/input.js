@@ -20,7 +20,6 @@ const Col = ({ horizontal, children }) => (
 )
 
 const Input = ({ label, prefix, postfix, css, horizontal, ...props }) => {
-
   return (
     <div class={classnames({ "mb-3": !horizontal, row: horizontal }, css?.main)}>
       {label !== undefined && (

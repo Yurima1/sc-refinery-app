@@ -30,13 +30,15 @@ For detailed explanation on how things work, checkout the [CLI Readme](https://g
 Create ``.env`` file with contents:
 
 ```
-PREACT_APP_API_URL=https://APIURL
+PREACT_APP_APIURL=https://APIURL
+PREACT_APP_BASEURL=/
 ```
 
 For example, local development mode:
 
 ```
-PREACT_APP_API_URL=https://localhost/api
+PREACT_APP_APIURL=https://localhost/api
+PREACT_APP_BASEURL=/app
 ```
 
 

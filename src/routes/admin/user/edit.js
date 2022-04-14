@@ -52,6 +52,17 @@ const AdminUserEdit = ({ modelId }) => {
       .catch(() => {})
   }
 
+  const deleteModel = (model) => {
+    dispatch({ type: "loading" })
+    apiConnector
+      .api("DELETE", `/user/${model.id}`)
+      .fetch()
+      .then(() => {
+        route(constants.BASEURL + "/admin/user/")
+      })
+      .catch(() => {})
+  }
+
   return (
     <div class="m-3 flex-grow-1">
       <Breadcrumb
@@ -62,7 +73,11 @@ const AdminUserEdit = ({ modelId }) => {
         ]}
       />
       <Spinner isReady={state.isReady}>
-        <UserForm model={state.model} onSave={updateModel} />
+        <UserForm
+          model={state.model}
+          onSave={updateModel}
+          onDelete={deleteModel}
+        />
       </Spinner>
     </div>
   )

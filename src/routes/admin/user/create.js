@@ -12,6 +12,7 @@ const AdminUserCreate = () => {
     password: "",
     password_confirm: "",
     is_active: true,
+    is_google: false,
     scopes: [],
   }
 

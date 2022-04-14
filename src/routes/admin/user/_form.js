@@ -24,7 +24,7 @@ const UserPermsForm = ({ scopes = [], onChange }) => {
     if (idx > -1) setState(state.filter((it) => it !== scope))
     else setState([...state, scope])
   }
-  useEffect(() => onChange(state), [state, onChange])
+  useEffect(() => onChange(state), [state])
 
   return (
     <div class="d-flex justify-content-between">
@@ -35,7 +35,7 @@ const UserPermsForm = ({ scopes = [], onChange }) => {
             class="form-check-input"
             type="checkbox"
             value={state.indexOf("*") > -1}
-            id={`user-scope-admin`}
+            id="user-scope-admin"
             checked={state.indexOf("*") > -1}
             onChange={stopEvent(() => toggleScope("*"))}
           />
@@ -55,9 +55,7 @@ const UserPermsForm = ({ scopes = [], onChange }) => {
                 value={state.indexOf(`${resource}.${action}`) > -1}
                 id={`user-scope-${resource}-${action}`}
                 checked={state.indexOf(`${resource}.${action}`) > -1}
-                onChange={stopEvent(() =>
-                  toggleScope(`${resource}.${action}`)
-                )}
+                onChange={stopEvent(() => toggleScope(`${resource}.${action}`))}
                 disabled={hasStar}
               />
               <label
@@ -79,8 +77,10 @@ const UserForm = ({ model, onSave }) => {
     model
   })
   const updateModel = (data) => setState({
-    ...state,
-    model: {...state.model, ...data}
+    model: {
+      ...state.model,
+      ...data
+    }
   })
 
   return (
@@ -93,7 +93,10 @@ const UserForm = ({ model, onSave }) => {
           id="user-mail"
           placeholder="user@mail"
           value={state.model.mail}
-          onChange={(e) => updateModel({ mail: e.target.value })}
+          onChange={(e) => {
+            console.info("input prop onChange")
+            updateModel({ mail: e.target.value })
+          }}
         />
         <Input
           label="Name"

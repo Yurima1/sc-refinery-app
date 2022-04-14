@@ -4,7 +4,7 @@ const { DefinePlugin } = require("webpack")
 
 export default (config, env, helpers) => {
   Object.assign(config.output, {
-    publicPath: '/app/'
+    publicPath: process.env.PREACT_APP_BASEURL
   })
 
   if (config.devServer) {
