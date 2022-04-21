@@ -2,18 +2,18 @@ import { Fragment } from "preact"
 import { useAppContext } from "./app"
 import Expire from "./expire"
 import Offcanvas from "./offcanvas"
+import classnames from "classnames/dedupe"
+import { isArray } from "lodash"
 
-const NotificationToast = ({ status, statusText, created, body }) => (
+
+const ToastBase = ({ header, body, css, created }) => (
   <div
-    class="toast fade show "
-    role="alert"
-    aria-live="assertive"
-    aria-atomic="true"
+    class={classnames("toast fade show", css?.main)}
     style="width:450px"
   >
-    <div class="toast-header">
+    <div class={classnames("toast-header", css?.header)}>
       <strong class="me-auto">
-        Request failed: {status} {statusText}
+        {header}
       </strong>
       <small>{created.fromNow()}</small>
       <button
@@ -23,11 +23,78 @@ const NotificationToast = ({ status, statusText, created, body }) => (
         aria-label="Close"
       />
     </div>
-    <div class="toast-body">
-      <pre>{body}</pre>
+    <div class="toast-body bg-white">
+      {body}
     </div>
   </div>
 )
+
+const ToastWarning = (props) => (
+  <ToastBase
+    {...props}
+    css={{main: "border-warning", header: "bg-warning text-white"}}
+  />
+)
+
+const ToastError = (props) => (
+  <ToastBase
+    {...props}
+    css={{ main: "border-danger", header: "bg-danger text-white" }}
+  />
+)
+
+const safeJsonParse = (str) => {
+  try {
+    return JSON.parse(str)
+  } catch (e) {
+    return str
+  }
+}
+
+const ValidationResult = ({ info }) => {
+  if (typeof(info) === "string") {
+    return info
+  }
+  const { invalid } = info
+  if (typeof(invalid) === "string") {
+    return invalid
+  }
+  if (isArray(info.invalid)) {
+    return (
+      <ul>
+        {info.invalid.map(({ path, message }) => (
+          <li>
+            <span class="text-danger">{path}</span> {message}
+          </li>
+        ))}
+      </ul>
+    )
+  }
+  return <pre>{ JSON.stringify(info, null, 2)}</pre>
+}
+
+const NotificationToast = ({ status, statusText, created, body }) => {
+  if (status == 400) {
+    return <ToastWarning
+      header="Invalid data"
+      body={<ValidationResult info={safeJsonParse(body)} />}
+      created={created}
+    />
+  }
+  if (status == 401 || status == 403) {
+    return <ToastError
+      header="Unauthorized"
+      body="You don't have permissions for this content"
+    />
+  }
+  return (
+    <ToastError
+      header="Server Error"
+      body={<pre>{props.body}</pre>}
+      created={created}
+    />
+  )
+}
 
 const NotificationCard = ({ status, statusText, created, body }) => (
   <div class="card mb-2">

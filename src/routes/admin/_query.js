@@ -6,6 +6,8 @@ import {
 import { sortableReducer } from "../../components/sorting"
 import { filterReducer } from "../../components/filtering"
 import { useReducer } from "preact/hooks"
+import constants from "../../constants"
+
 
 const handleQueryState = (state, action) => {
   switch (action.type) {
@@ -54,7 +56,7 @@ export default () => {
   const initState = {
     status: "init",
     page: 0,
-    perPage: 20,
+    perPage: constants.DEFAULT_PAGE_SIZE,
     sort: {},
     filter: {},
     items: [],

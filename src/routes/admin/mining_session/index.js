@@ -26,33 +26,36 @@ const columns = [
     },
     filterable: "name",
     sortable: "name",
-    width: 4,
+    width: 2,
   },
   {
     header: {
       title: "creator",
-      body: {
-        value: "creator.name",
-      },
+    },
+    body: {
+      value: "creator.name",
     },
     filterable: "creator_name",
     sortable: "creator_name",
+    width: 2,
   },
   {
     header: {
-      title: "count_participants",
+      title: "users_invited_count",
+      classnames: "text-ellipsis",
     },
     body: {
-      value: "count_participants",
+      value: "users_invited_count",
     },
     width: 1,
   },
   {
     header: {
-      title: "count_entries",
+      title: "entries_count",
+      classnames: "text-ellipsis",
     },
     body: {
-      value: "count_entries",
+      value: "entries_count",
     },
     width: 1,
   },

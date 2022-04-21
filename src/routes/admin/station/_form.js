@@ -37,7 +37,7 @@ class Efficiencies extends Component {
         label={ore.name}
         postfix="%"
         type="number"
-        min="0"
+        min="-100"
         max="100"
         step="1"
         id={`station-efficiency-bonus-${index}`}
@@ -71,7 +71,7 @@ class StationForm extends Component {
     this.state = { ...this.initialState }
   }
 
-  render({ onSave, onDelete }, state) {
+  render({ ores, onSave, onDelete }, state) {
     return (
       <form action="javascript:void(0)">
         <div>
@@ -91,15 +91,16 @@ class StationForm extends Component {
             <div class="col">{translate("Efficiency bonus")}</div>
           </div>
           <Efficiencies
-            model={state.efficiency}
-            onChange={(efficiency) => this.setState({ efficiency })}
+            ores={ores}
+            model={state.efficiencies}
+            onChange={(efficiencies) => this.setState({ efficiencies })}
           />
         </div>
-        <div class="d-flex justify-content-between mt-3">
+        <div class="text-end mt-3">
           {onDelete !== undefined && (
             <button
               type="submit"
-              class="btn btn-danger"
+              class="btn btn-danger me-2"
               onClick={() => onDelete(state.id)}
             >
                {translate("Delete")}

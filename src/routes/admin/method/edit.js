@@ -1,103 +1,108 @@
+import { route } from "preact-router"
+import { useEffect, useReducer } from "preact/hooks"
 import Breadcrumb from "../../../components/breadcrumb"
 import Spinner from "../../../components/spinner"
-import { useEffect, useReducer } from "preact/hooks"
 import { useAppContext } from "../../../components/app"
 import MethodForm from "./_form"
-import constants from "constants"
-import { route } from "preact-router"
+import constants from "../../../constants"
+import { useActionReducer } from "../../../util"
+import defaultActions from "../_defaultActions"
 
-const handleForm = (state, action) => {
-  switch (action.type) {
-    case "loading": {
-      return { ...state, isReady: false }
-    }
-    case "loadSuccess": {
-      const { model, ores } = action
-      const nextState = { ...state }
-      if (model !== undefined)
-        nextState.model = model
-      if (ores !== undefined)
-        nextState.ores = ores
-      nextState.isReady = (nextState.ores !== null && nextState.model !== null)
-      return nextState
-    }
-    default:
-      return state
-  }
+const actionHandlers = {
+  ...defaultActions,
+
+  loadSuccess: (state, { model, ores }) => {
+    const nextState = { ...state }
+    if (model !== undefined) nextState.model = model
+    if (ores !== undefined) nextState.ores = ores
+    nextState.isReady = nextState.ores !== null && nextState.model !== null
+    return nextState
+  },
+}
+
+const loadMethod = (apiConnector, dispatch, state) => () => {
+  if (state.model !== null) return;
+  dispatch.loading()
+  apiConnector
+    .api("GET", `/method/${state.modelId}`)
+    .fetch()
+    .then((result) => result.json())
+    .then((context) => {
+      dispatch.loadSuccess({ model: context.json })
+    })
+    .catch(() => {
+      dispatch.loadFailure()
+    })
+}
+
+const loadOres = (apiConnector, dispatch, state) => () => {
+  if (state.ores !== null) return
+  dispatch.loading()
+  apiConnector
+    .api("GET", "/ore/?limit=-1")
+    .fetch()
+    .then((result) => result.json())
+    .then((context) => {
+      dispatch.loadSuccess({ ores: context.json.items })
+    })
+    .catch(() => {
+      dispatch.loadFailure()
+    })
 }
 
 const AdminMethodEdit = ({ modelId }) => {
   const { apiConnector } = useAppContext()
-  const [state, dispatch] = useReducer(handleForm, {
-    modelId,
-    model: null,
-    ores: null,
-    isReady: false,
-  })
+  const [state, dispatch] = useActionReducer(
+    actionHandlers,
+    {
+      modelId,
+      model: null,
+      ores: null,
+      isReady: false,
+    }
+  )
 
-  useEffect(() => {
-    if (state.model !== null) return;
-    dispatch({type: "loading"})
-    apiConnector
-      .api("GET", `/method/${state.modelId}`)
-      .fetch()
-      .then((result) => result.json())
-      .then((context) => {
-        dispatch({
-          type: "loadSuccess",
-          model: context.json
-        })
-      })
-      .catch(() => {})
-  }, [state.model])
-
-  useEffect(() => {
-    if (state.ores !== null) return;
-    dispatch({ type: "loading" })
-    apiConnector
-      .api("GET", "/ore/?limit=-1")
-      .fetch()
-      .then((result) => result.json())
-      .then((context) => {
-        dispatch({ type: "loadSuccess", ores: context.json.items })
-      })
-      .catch(() => {})
-  }, [state.ores])
+  useEffect(loadMethod(apiConnector, dispatch, state), [state.model])
+  useEffect(loadOres(apiConnector, dispatch, state), [state.ores])
 
   const updateModel = (model) => {
-    dispatch({ type: "loading" })
+    dispatch.loading()
     apiConnector
       .api("PUT", `/method/${model.id}`)
       .json(model)
       .fetch()
       .then((result) => result.json())
       .then((context) => {
-        dispatch({ type: "loadSuccess", model: context.json })
+        dispatch.loadSuccess({ model: context.json })
       })
-      .catch(() => {})
+      .catch(() => {
+        dispatch.loadFailure()
+      })
   }
 
   const deleteModel = (model) => {
-    dispatch({ type: "loading" })
+    dispatch.loading()
     apiConnector
       .api("DELETE", `/method/${model.id}`)
       .fetch()
       .then(() => {
         route(constants.BASEURL + "/admin/method/")
       })
-      .catch(() => {})
+      .catch(() => {
+        dispatch.loadFailure()
+      })
   }
 
   return (
     <div class="m-3 flex-grow-1">
-      <Breadcrumb
-        items={[
-          { label: "Admin", href: constants.BASEURL + "/admin" },
-          { label: "Method", href: constants.BASEURL + "/admin/method" },
-          { label: state.model?.id },
-        ]}
-      />
       <Spinner isReady={state.isReady}>
+        <Breadcrumb
+          items={[
+            { label: "Admin", href: constants.BASEURL + "/admin" },
+            { label: "Method", href: constants.BASEURL + "/admin/method" },
+            { label: `${state.model?.name} (${state.model?.id})` },
+          ]}
+        />
         <MethodForm
           ores={state.ores}
           model={state.model}

@@ -3,9 +3,9 @@ const resolveEnvVars = require("resolve-env-vars")
 const { DefinePlugin } = require("webpack")
 
 export default (config, env, helpers) => {
-  Object.assign(config.output, {
-    publicPath: process.env.PREACT_APP_BASEURL
-  })
+  // Object.assign(config.output, {
+  //   publicPath: process.env.PREACT_APP_BASEURL
+  // })
 
   if (config.devServer) {
     dotenv.config()

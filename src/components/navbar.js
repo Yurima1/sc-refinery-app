@@ -3,10 +3,10 @@ import { stopEvent } from "../util"
 import { useAppContext } from "./app"
 import constants from "../constants"
 
-const NavLink = (props) => (
+const NavLink = ({ href, path, children }) => (
   <li class="nav-item">
-    <Link className="nav-link" activeClassName="active" href={props.href}>
-      {props.children}
+    <Link class="nav-link" activeClass="active" href={href} path={path}>
+      {children}
     </Link>
   </li>
 )
@@ -24,9 +24,15 @@ const Navbar = () => {
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
           <ul class="navbar-nav flex-grow-1">
-            <NavLink href={constants.BASEURL + "/"}>Home</NavLink>
+            <NavLink
+              href={constants.BASEURL + "/"}
+            >
+              Home
+            </NavLink>
             {login.user?.scopes?.indexOf("*") > -1 && (
-              <NavLink href={constants.BASEURL + "/admin"}>Admin</NavLink>
+              <NavLink
+                path={constants.BASEURL + "/admin/:rest*"}
+                href={constants.BASEURL + "/admin"}>Admin</NavLink>
             )}
           </ul>
           <ul class="navbar-nav">

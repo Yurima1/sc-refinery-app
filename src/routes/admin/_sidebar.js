@@ -1,11 +1,12 @@
-import { Link } from "preact-router/match"
+import { useRouter } from "preact-router"
+import Link from "../../components/link"
 import { Icon } from "../../components/icon"
 import { Sidebar } from "../../components/sidebar"
 import constants from "../../constants"
 
-const SidebarItem = ({ label, href, icon }) => (
+const SidebarItem = ({ label, href, path, icon }) => (
   <li class="nav-item">
-    <Link href={href} class="nav-link" activeClassName="active">
+    <Link href={href} path={`${href}/:rest*`} class="nav-link" activeClass="active">
       <Icon cls={icon} />
       {label}
     </Link>

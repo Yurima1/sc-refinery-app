@@ -8,28 +8,43 @@ th {
   vertical-align: top;
 }
 
-input[type=text], input[type=password],textarea {
-    font-family: monospace;
+input[type=text],
+input[type=password],
+input[type=number],
+textarea {
+  font-family: monospace;
 }
 
 .sidebar {
-    min-width: 13rem;
+  min-width: 13rem;
 }
 
 .breadcrumb {
-    --bs-breadcrumb-divider: '>';
+  --bs-breadcrumb-divider: '>';
 }
 
 .text-ellipsis {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .table > :not(:first-child) {
-    border-top: none;
+  border-top: none;
 }
 
 .spinner-overlay {
-    background-color: rgba(var(--bs-light-rgb), 0.7);
+  background-color: rgba(var(--bs-light-rgb), 0.7);
+}
+
+.mining-session-participants-grid {
+  display: grid;
+
+  grid-template-columns: repeat(auto-fill, minmax(26ch, 1fr));
+  justify-content: center;
+}
+
+.mining-session-participant-button:hover {
+  background-color: var(--bs-danger);
+  color: var(--bs-white);
 }

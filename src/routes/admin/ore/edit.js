@@ -1,87 +1,80 @@
+import { route } from "preact-router"
 import Breadcrumb from "../../../components/breadcrumb"
 import Spinner from "../../../components/spinner"
-import { useEffect, useReducer } from "preact/hooks"
+import { useEffect } from "preact/hooks"
 import { useAppContext } from "../../../components/app"
 import OreForm from "./_form"
-import { route } from "preact-router"
 import constants from "../../../constants"
+import { useActionReducer } from "../../../util"
+import defaultActions from "../_defaultActions"
 
-const handleForm = (state, action) => {
-  switch (action.type) {
-    case "loading": {
-      return { ...state, isReady: false }
-    }
-    case "loadSuccess": {
-      const { model } = action
-      const nextState = { ...state }
-      if (model !== undefined)
-        nextState.model = model
-      nextState.isReady = (nextState.model !== null)
-      return nextState
-    }
-    default:
-      return state
-  }
+const actionHandlers = {
+  ...defaultActions,
+
+  loadSuccess: (state, { model }) => (
+    { ...state, model, isReady: model !== undefined }
+  ),
+}
+
+const loadOre = (apiConnector, dispatch, state) => () => {
+  if (state.model !== null) return
+  dispatch.loading()
+  apiConnector
+    .api("GET", `/ore/${state.modelId}`)
+    .fetch()
+    .then((result) => result.json())
+    .then((context) => {
+      dispatch.loadSuccess({ model: context.json })
+    })
+    .catch(() => {
+      dispatch.loadFailure()
+    })
 }
 
 const AdminOreEdit = ({ modelId }) => {
   const { apiConnector } = useAppContext()
-  const [state, dispatch] = useReducer(handleForm, {
+  const [state, dispatch] = useActionReducer(actionHandlers, {
     modelId,
     model: null,
     isReady: false,
   })
 
-  useEffect(() => {
-    if (state.model !== null) return;
-    dispatch({type: "loading"})
-    apiConnector
-      .api("GET", `/ore/${state.modelId}`)
-      .fetch()
-      .then((result) => result.json())
-      .then((context) => {
-        dispatch({
-          type: "loadSuccess",
-          model: context.json
-        })
-      })
-      .catch(() => {})
-  }, [state.model])
+  useEffect(loadOre(apiConnector, dispatch, state), [state.model])
 
   const saveModel = (model) => {
-    dispatch({ type: "loading" })
+    dispatch.loading()
     apiConnector
       .api("PUT", `/ore/${model.id}`)
       .json(model)
       .fetch()
       .then((result) => result.json())
       .then((context) => {
-        dispatch({ type: "loadSuccess", model: context.json })
+        dispatch.loadSuccess({ model: context.json })
       })
-      .catch(() => {})
+      .catch(() => { dispatch.loadFailure() })
   }
 
   const deleteModel = (model) => {
-    dispatch({ type: "loading" })
+    dispatch.loading()
     apiConnector
       .api("DELETE", `/ore/${model.id}`)
       .fetch()
       .then(() => {
         route(constants.BASEURL + "/admin/ore/")
       })
-      .catch(() => {})
+      .catch(() => { dispatch.loadFailure() })
   }
 
   return (
     <div class="m-3 flex-grow-1">
-      <Breadcrumb
-        items={[
-          { label: "Admin", href: constants.BASEURL + "/admin" },
-          { label: "Ore", href: constants.BASEURL + "/admin/ore" },
-          { label: state.model?.id },
-        ]}
-      />
       <Spinner isReady={state.isReady}>
+        <Breadcrumb
+          items={[
+            { label: "Admin", href: constants.BASEURL + "/admin" },
+            { label: "Ore", href: constants.BASEURL + "/admin/ore" },
+            { label: `${state.model?.name} (${state.model?.id})` },
+          ]}
+        />
         <OreForm
           model={state.model}
           onSave={saveModel}

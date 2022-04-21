@@ -1,4 +1,5 @@
 import classnames from "classnames/dedupe"
+import get from "lodash/get"
 
 const _defaultRowClicked = () => { }
 
@@ -49,7 +50,7 @@ const viewBodyColumn = (column, item) => {
   if (typeof value === "function") {
     return <td class={classnames(body.classnames)}>{value.call(column, item)}</td>
   }
-  return <td class={classnames(body.classnames)}>{item[value]}</td>
+  return <td class={classnames(body.classnames)}>{get(item, value)}</td>
 }
 
 const defaultTableView = () => ({

@@ -15,7 +15,7 @@ const columns = [
       value: "id",
     },
     sortable: "id",
-    width: 0.5
+    width: 0.5,
   },
   {
     header: {
@@ -26,7 +26,17 @@ const columns = [
     },
     filterable: "name",
     sortable: "name",
-    width: 4
+    width: 4,
+  },
+  {
+    header: {
+      title: "sell_price",
+    },
+    body: {
+      value: "sell_price",
+    },
+    sortable: "sell_price",
+    width: 1,
   },
   {
     header: {
@@ -36,7 +46,7 @@ const columns = [
       value: "created",
     },
     sortable: "created",
-    width: 1
+    width: 1,
   },
   {
     header: {
@@ -46,7 +56,7 @@ const columns = [
       value: "updated",
     },
     sortable: "updated",
-    width: 1
+    width: 1,
   },
 ]
 
