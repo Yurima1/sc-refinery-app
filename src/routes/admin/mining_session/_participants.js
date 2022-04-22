@@ -1,14 +1,15 @@
-import { Fragment } from "preact"
 import { Icon } from "../../../components/icon"
 import UserSearchInput from "../_userSearchInput"
 
-const MiningSessionParticipants = ({ model, addParticipant, removeParticipant, onSave }) => {
+const MiningSessionParticipants = ({ model, add, remove, onSave }) => {
   return (
-    <Fragment>
-      <div class="mining-session-participants-grid mt-3 mb-3">
+    <div class="mining-session-participants">
+      <div class="user-list-grid mt-3 mb-3">
         {model.users_invited.map((user) => (
-          <button class="mining-session-participant-button btn text-nowrap text-start"
-            onClick={() => removeParticipant(user)}>
+          <button
+            title={user.name}
+            class="btn btn-danger-hover text-nowrap text-start text-ellipsis"
+            onClick={() => remove(user)}>
             <Icon cls="x-square-fill" />
             {user.name}
           </button>
@@ -17,7 +18,7 @@ const MiningSessionParticipants = ({ model, addParticipant, removeParticipant, o
       <UserSearchInput
         id="mining-session-participant"
         label="Add Participant"
-        onChange={addParticipant}
+        onChange={add}
         clearOnChange={true}
       />
       <div class="mt-3 text-end">
@@ -25,7 +26,7 @@ const MiningSessionParticipants = ({ model, addParticipant, removeParticipant, o
           Save
         </button>
       </div>
-    </Fragment>
+    </div>
   )
 }
 

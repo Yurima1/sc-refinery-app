@@ -79,26 +79,6 @@ const columns = [
       value: (row) => Number(row.profit).toFixed(2),
     },
   },
-  {
-    header: {
-      title: "created",
-    },
-    body: {
-      value: "created",
-    },
-    width: 2,
-    sortable: "created",
-  },
-  {
-    header: {
-      title: "updated",
-    },
-    body: {
-      value: "updated",
-    },
-    width: 2,
-    sortable: "updated",
-  },
 ]
 
 const MiningSessionEntries = ({ model }) => {

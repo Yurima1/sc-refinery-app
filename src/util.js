@@ -145,3 +145,18 @@ export const formatDuration = (value) => {
 
   return `${postfix(days, "d ")}${postfix(hours, "h ")}${postfix(minutes, "m ")}${postfix(seconds, "s")}`
 }
+
+/**
+ * Parse string in format "(days)d (hours)h (minutes)m (seconds)s" into seconds
+ * using regular expression.
+ */
+export const parseDuration = (value) => {
+  const regex = /(\d+d)?\s*(\d+h)?\s*(\d+m)?\s*(\d+s)?/i
+  const match = regex.exec(value)
+  if (!match) return 0
+  const [, days, hours, minutes, seconds] = match
+  return (parseInt(days, 10) || 0) * 3600 * 24 +
+    (parseInt(hours, 10) || 0) * 3600 +
+    (parseInt(minutes, 10) || 0) * 60 +
+    (parseInt(seconds, 10) || 0)
+}

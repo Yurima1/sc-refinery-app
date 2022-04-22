@@ -1,5 +1,5 @@
 import { route } from "preact-router"
-import { useEffect, useReducer } from "preact/hooks"
+import { useEffect } from "preact/hooks"
 import Breadcrumb from "../../../components/breadcrumb"
 import Spinner from "../../../components/spinner"
 import { useAppContext } from "../../../components/app"

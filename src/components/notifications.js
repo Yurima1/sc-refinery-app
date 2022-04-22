@@ -3,7 +3,7 @@ import { useAppContext } from "./app"
 import Expire from "./expire"
 import Offcanvas from "./offcanvas"
 import classnames from "classnames/dedupe"
-import { isArray } from "lodash"
+import isArray from "lodash/isArray"
 
 
 const ToastBase = ({ header, body, css, created }) => (
@@ -85,6 +85,7 @@ const NotificationToast = ({ status, statusText, created, body }) => {
     return <ToastError
       header="Unauthorized"
       body="You don't have permissions for this content"
+      created={created}
     />
   }
   return (

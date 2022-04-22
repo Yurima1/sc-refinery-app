@@ -29,7 +29,7 @@ const Navbar = () => {
             >
               Home
             </NavLink>
-            {login.user?.scopes?.indexOf("*") > -1 && (
+            {login.user?.is_admin && (
               <NavLink
                 path={constants.BASEURL + "/admin/:rest*"}
                 href={constants.BASEURL + "/admin"}>Admin</NavLink>

@@ -16,6 +16,7 @@ import OreCreate from "./ore/create"
 import MiningSessionIndex from './mining_session/index'
 import MiningSessionCreate from "./mining_session/create"
 import MiningSessionEdit from "./mining_session/edit"
+import MiningSessionEntryEdit from "./mining_session/entry"
 
 
 const Default = () => (
@@ -48,6 +49,8 @@ const AdminIndex = () => {
         <MiningSessionIndex path={constants.BASEURL + "/admin/mining_session"} />
         <MiningSessionEdit path={constants.BASEURL + "/admin/mining_session/:modelId/:rest*"} />
         <MiningSessionCreate path={constants.BASEURL + "/admin/mining_session/create"} />
+        <MiningSessionEntryEdit path={ constants.BASEURL + "/admin/mining_session/:modelId/entry/:entryId" } />
+        <MiningSessionEntryEdit path={ constants.BASEURL + "/admin/mining_session/:modelId/entry/create" } />
       </Router>
     </div>
   )

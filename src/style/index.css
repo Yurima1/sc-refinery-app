@@ -37,14 +37,13 @@ textarea {
   background-color: rgba(var(--bs-light-rgb), 0.7);
 }
 
-.mining-session-participants-grid {
+.user-list-grid {
   display: grid;
-
-  grid-template-columns: repeat(auto-fill, minmax(26ch, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(18ch, 1fr));
   justify-content: center;
 }
 
-.mining-session-participant-button:hover {
+button.btn-danger-hover:hover {
   background-color: var(--bs-danger);
   color: var(--bs-white);
 }

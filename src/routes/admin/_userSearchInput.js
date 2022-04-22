@@ -1,7 +1,8 @@
 import { useAppContext } from "../../components/app"
 import SearchInput from "../../components/form/searchInput"
+import isNil from "lodash/isNil"
 
-const userView = (user) => user === undefined ? "" : `${user.name} (${user.id})`
+const userView = (user) => isNil(user) ? "" : `${user.name} (${user.id})`
 
 const UserSearchInput = (props) => {
   const { apiConnector } = useAppContext()

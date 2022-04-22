@@ -86,7 +86,6 @@ const checkTokenCookie = (apiConnector, stateUser, dispatch) => {
   if (stateUser) return
   const user_session = getCookie("s")
   const user_id = getCookie("u")
-  console.log(`user_id: ${user_id}, user_session: ${user_session}`)
   if (user_session === null || user_id === null)
     return
 

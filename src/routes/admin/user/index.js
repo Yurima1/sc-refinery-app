@@ -5,6 +5,7 @@ import Breadcrumb from "../../../components/breadcrumb"
 import { useAppContext } from "../../../components/app"
 import { route } from "preact-router"
 import constants from "../../../constants"
+import { Icon } from "../../../components/icon"
 
 // TODO: what was I going to this for?
 // const scopeMaxLength = 20
@@ -26,6 +27,7 @@ const columns = [
     },
     body: {
       value: "name",
+      classnames: "text-ellipsis"
     },
     width: 4,
     filterable: "name",
@@ -44,10 +46,10 @@ const columns = [
   },
   {
     header: {
-      title: "scopes",
+      title: "is_admin",
     },
     body: {
-      view: (row) => <td class="text-ellipsis">{row.scopes.join(", ")}</td>,
+      value: (row) => row.is_admin ? <Icon cls="check-square-fill"/> : "",
     },
     width: 4,
   },

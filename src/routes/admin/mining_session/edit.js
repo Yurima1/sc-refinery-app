@@ -9,7 +9,6 @@ import MiningSessionTabs from "./_tabs"
 import MiningSessionParticipants from "./_participants"
 import MiningSessionEntries from "./_entries"
 import MiningSessionForm from "./_form"
-import MiningSessionEntryForm from "./_entryForm"
 import defaultActions from "../_defaultActions"
 
 const actions = {
@@ -76,34 +75,6 @@ const AdminMiningSessionEdit = ({ modelId }) => {
       })
   }
 
-  const onEntryDelete = (entry) => {
-    dispatch.loading()
-    apiConnector.api("DELETE", `/mining_session/${entry.session_id}/entry/${entry.id}`)
-      .fetch()
-      .then(() => {
-        route(`${constants.BASEURL}/admin/mining_session/${state.modelId}/`)
-      })
-      .catch(() => {
-        dispatch.loadFailure()
-      })
-  }
-  const onEntrySave = (entry) => {
-    dispatch.loading()
-    apiConnector.api(
-      "PUT",
-      `/mining_session/${entry.session_id}/entry/${entry.id}`
-    )
-      .json(entry)
-      .fetch()
-      .then(response => response.json())
-      .then((context) => {
-        dispatch.loadSuccess({ model: context.json })
-      })
-      .catch(() => {
-        dispatch.loadFailure()
-      })
-  }
-
   return (
     <div class="m-3 flex-grow-1">
       <Spinner isReady={state.isReady}>
@@ -129,27 +100,14 @@ const AdminMiningSessionEdit = ({ modelId }) => {
             model={state.model}
             path={constants.BASEURL + "/admin/mining_session/:modelId/entry"}
           />
-          <MiningSessionEntryForm
-            model={state.model}
-            path={
-              constants.BASEURL +
-              "/admin/mining_session/:modelId/entry/:entryId"
-            }
-            onDelete={onEntryDelete}
-            onSave={onEntrySave}
-          />
           <MiningSessionParticipants
             id="tab-mining-session-participants"
             model={state.model}
             path={
               constants.BASEURL + "/admin/mining_session/:modelId/participant"
             }
-            addParticipant={(value) =>
-              dispatch.addParticipant(value)
-            }
-            removeParticipant={(value) =>
-              dispatch.removeParticipant(value)
-            }
+            add={(value) => dispatch.addParticipant(value)}
+            remove={(value) => dispatch.removeParticipant(value)}
             onSave={onSave}
           />
           <div
